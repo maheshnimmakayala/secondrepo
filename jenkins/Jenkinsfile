@@ -25,6 +25,16 @@ pipeline {
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
+            
+            stage('ContDeployment')
+        {
+            steps
+            {
+               sshagent(['tomcat-cred']) {
+        sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/first-job/webapp/target/my-app-1.0-SNAPSHOT.jar ec2-user@172.31.89.204:/opt/apache-tomcat-8.5.43/webapps/'
+                        
+                   
+             }
         }
     }
 }
